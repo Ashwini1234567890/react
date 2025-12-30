@@ -1,15 +1,15 @@
-import React from 'react'
-import Props from './components/concepts/types/Props'
-import States from './components/concepts/types/states';
+import Header from "./components/Header";
+import Home from "./pages/Home";
+import Footer from "./components/Footer";
 
 export default function App() {
-  const definition = "Ashwini";
   return (
-    <div>
-      <Props props={definition} />
-      <States/>
+    <div className="bg-black min-h-screen">
+      <Header />
+      <Home />
+      <Footer />
     </div>
-  )
+  );
 }
 
 
