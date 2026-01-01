@@ -1,35 +1,20 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import productsData from "../data/productsData";
-import { useCart } from "../context/CartContext";
 
 const categories = ["All", "Headphones", "Earbuds", "Earphones", "Neckbands"];
 
-export default function TopProducts() {
+export default function AllProducts() {
   const [active, setActive] = useState("All");
-  const [addedId, setAddedId] = useState(null);
-
-  const { addToCart } = useCart(); // ✅ correct
-  const navigate = useNavigate();
 
   const filtered =
     active === "All"
       ? productsData
       : productsData.filter((p) => p.category === active);
 
-  const handleAddToCart = (product) => {
-    addToCart(product);      // add or increase qty
-    setAddedId(product.id); // show "Added"
-
-    setTimeout(() => {
-      setAddedId(null);     // back to "Add to cart"
-    }, 2000);
-  };
-
   return (
-    <section className="bg-black py-16">
-      <h2 className="text-center text-gray-300 mb-6 text-xl">
-        Top Products
+    <section className="bg-black min-h-screen py-16">
+      <h2 className="text-center text-white text-2xl mb-8">
+        All Products
       </h2>
 
       {/* CATEGORY FILTER */}
@@ -47,11 +32,12 @@ export default function TopProducts() {
             {cat}
           </button>
         ))}
+        
       </div>
 
       {/* PRODUCTS GRID */}
       <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filtered.slice(0, 11).map((item) => (
+        {filtered.map((item) => (
           <div
             key={item.id}
             className="bg-[#111] p-4 rounded border border-gray-800 hover:border-red-600 transition"
@@ -62,7 +48,7 @@ export default function TopProducts() {
               className="h-40 mx-auto object-contain"
             />
 
-            <h3 className="text-white mt-3 text-sm font-medium">
+            <h3 className="text-white mt-3 text-sm">
               {item.title}
             </h3>
 
@@ -70,7 +56,7 @@ export default function TopProducts() {
               {item.info}
             </p>
 
-            <div className="flex gap-2 mt-2 items-center">
+            <div className="flex gap-2 mt-2">
               <span className="text-white font-semibold">
                 ₹{item.finalPrice}
               </span>
@@ -79,31 +65,14 @@ export default function TopProducts() {
               </span>
             </div>
 
-            <button
-              onClick={() => handleAddToCart(item)}
-              className={`w-full mt-3 py-2 text-sm rounded transition ${
-                addedId === item.id
-                  ? "bg-green-600"
-                  : "bg-red-600 hover:bg-red-700"
-              }`}
-            >
-              {addedId === item.id ? "Added" : "Add to cart"}
+            <button className="bg-red-600 w-full mt-3 py-2 text-sm rounded">
+              Add to cart
             </button>
           </div>
         ))}
-
-        {/* BROWSE ALL */}
-        <div
-          onClick={() => navigate("/Allproducts")}
-          className="border border-gray-700 flex items-center justify-center
-                     text-gray-400 hover:text-white cursor-pointer rounded
-                     hover:border-red-600 transition"
-        >
-          <span className="text-sm font-medium">
-            Browse All Products →
-          </span>
-        </div>
       </div>
     </section>
+    
   );
+  
 }
