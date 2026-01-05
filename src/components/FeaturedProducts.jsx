@@ -1,9 +1,12 @@
 import Slick from "react-slick";
+import { useNavigate } from "react-router-dom";
 import productsData from "../data/productsData";
 
 const Slider = Slick.default || Slick;
 
 export default function FeaturedProducts() {
+  const navigate = useNavigate();
+
   const featured = productsData.filter(
     (item) => item.tag === "featured-product"
   );
@@ -22,16 +25,11 @@ export default function FeaturedProducts() {
     responsive: [
       {
         breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-        },
+        settings: { slidesToShow: 3 },
       },
       {
         breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          centerMode: false,
-        },
+        settings: { slidesToShow: 1, centerMode: false },
       },
     ],
     appendDots: (dots) => (
@@ -53,17 +51,33 @@ export default function FeaturedProducts() {
       <Slider {...settings}>
         {featured.map((product) => (
           <div key={product.id} className="px-4">
-            <div className="flex flex-col items-center text-center text-gray-300 transition-all duration-500 slick-center:scale-110 scale-90">
-
+            <div
+              onClick={() => navigate(`/product/${product.id}`)}
+              className="flex flex-col items-center text-center text-gray-300
+                         transition-all duration-500 cursor-pointer
+                         slick-center:scale-110 scale-90"
+            >
               {/* IMAGE */}
               <img
                 src={product.images[0]}
                 alt={product.title}
-                className="h-48 object-contain mb-6"
+                className="h-48 object-contain mb-4"
               />
 
               {/* TITLE */}
-              <p className="text-sm mb-2">{product.title}</p>
+              <p className="text-sm mb-1 hover:text-red-500">
+                {product.title}
+              </p>
+
+              {/* ⭐ RATINGS */}
+              <div className="flex items-center gap-1 mb-2">
+                <span className="text-red-500">
+                  {"★".repeat(product.rateCount)}
+                </span>
+                <span className="text-gray-500 text-xs">
+                  ({product.ratings})
+                </span>
+              </div>
 
               {/* PRICE */}
               <div className="flex gap-3 items-center justify-center">

@@ -19,14 +19,14 @@ export default function Header() {
   const searchInputRef = useRef(null);
   const navigate = useNavigate();
 
-  // Auto focus search input
+  /* Auto focus search input */
   useEffect(() => {
     if (openSearch && searchInputRef.current) {
       searchInputRef.current.focus();
     }
   }, [openSearch]);
 
-  // Close profile on outside click
+  /* Close profile when clicking outside */
   useEffect(() => {
     const handler = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
@@ -59,18 +59,25 @@ export default function Header() {
           {/* ICONS */}
           <div className="flex items-center gap-6 text-white relative">
 
-            {/* SEARCH ICON */}
-            <FiSearch
-              size={18}
-              className="cursor-pointer"
-              onClick={() => setOpenSearch((prev) => !prev)}
-            />
+            {/* SEARCH ICON + TOOLTIP */}
+            <div className="relative group">
+              <FiSearch
+                size={18}
+                className="cursor-pointer"
+                onClick={() => setOpenSearch((prev) => !prev)}
+              />
+              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2
+                               bg-black text-xs px-2 py-1 rounded
+                               text-gray-300 opacity-0 group-hover:opacity-100 transition">
+                Search
+              </span>
+            </div>
 
             {/* SEARCH DROPDOWN */}
             {openSearch && (
               <div className="absolute right-32 top-14 bg-[#111] border border-gray-700 p-3 w-72 rounded z-50">
 
-                {/* INPUT + CROSS */}
+                {/* INPUT + CLEAR */}
                 <div className="relative">
                   <input
                     ref={searchInputRef}
@@ -80,7 +87,6 @@ export default function Header() {
                     className="w-full bg-black border border-gray-600 px-3 py-2 pr-8 text-sm text-white outline-none"
                   />
 
-                  {/* ❌ CLEAR BUTTON */}
                   {search && (
                     <FiX
                       size={16}
@@ -90,7 +96,7 @@ export default function Header() {
                   )}
                 </div>
 
-                {/* RESULTS */}
+                {/* SEARCH RESULTS */}
                 {search && (
                   <div className="mt-2 max-h-48 overflow-y-auto">
                     {filteredResults.length > 0 ? (
@@ -98,7 +104,7 @@ export default function Header() {
                         <p
                           key={item.id}
                           onClick={() => {
-                            navigate("/Allproducts");
+                            navigate(`/product/${item.id}`);
                             setOpenSearch(false);
                             setSearch("");
                           }}
@@ -117,17 +123,24 @@ export default function Header() {
               </div>
             )}
 
-            {/* CART */}
+            {/* CART ICON + TOOLTIP */}
             <div
-              className="relative cursor-pointer"
+              className="relative cursor-pointer group"
               onClick={() => navigate("/cart")}
             >
               <FiShoppingCart size={18} />
+
               {cart.length > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-600 text-xs px-1 rounded-full">
                   {cart.length}
                 </span>
               )}
+
+              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2
+                               bg-black text-xs px-2 py-1 rounded
+                               text-gray-300 opacity-0 group-hover:opacity-100 transition">
+                Cart
+              </span>
             </div>
 
             {/* PROFILE */}
