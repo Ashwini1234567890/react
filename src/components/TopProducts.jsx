@@ -9,7 +9,7 @@ export default function TopProducts() {
   const [active, setActive] = useState("All");
   const [addedId, setAddedId] = useState(null);
 
-  const { addToCart } = useCart(); // ✅ correct
+  const { addToCart } = useCart();
   const navigate = useNavigate();
 
   const filtered =
@@ -18,12 +18,10 @@ export default function TopProducts() {
       : productsData.filter((p) => p.category === active);
 
   const handleAddToCart = (product) => {
-    addToCart(product);      // add or increase qty
-    setAddedId(product.id); // show "Added"
+    addToCart(product);
+    setAddedId(product.id);
 
-    setTimeout(() => {
-      setAddedId(null);     // back to "Add to cart"
-    }, 2000);
+    setTimeout(() => setAddedId(null), 2000);
   };
 
   return (
@@ -56,20 +54,35 @@ export default function TopProducts() {
             key={item.id}
             className="bg-[#111] p-4 rounded border border-gray-800 hover:border-red-600 transition"
           >
+            {/* IMAGE */}
             <img
               src={item.images[0]}
               alt={item.title}
-              className="h-40 mx-auto object-contain"
+              className="h-40 mx-auto object-contain cursor-pointer"
+              onClick={() => navigate(`/product/${item.id}`)}
             />
 
-            <h3 className="text-white mt-3 text-sm font-medium">
+            {/* TITLE */}
+            <h3
+              onClick={() => navigate(`/product/${item.id}`)}
+              className="text-white mt-3 text-sm font-medium cursor-pointer hover:text-red-500"
+            >
               {item.title}
             </h3>
 
-            <p className="text-gray-400 text-xs">
-              {item.info}
-            </p>
+            <p className="text-gray-400 text-xs">{item.info}</p>
 
+            {/* ⭐ RATINGS */}
+            <div className="flex items-center gap-1 mt-1 text-sm">
+              <span className="text-red-500">
+                {"★".repeat(item.rateCount)}
+              </span>
+              <span className="text-gray-500 text-xs">
+                ({item.ratings})
+              </span>
+            </div>
+
+            {/* PRICE */}
             <div className="flex gap-2 mt-2 items-center">
               <span className="text-white font-semibold">
                 ₹{item.finalPrice}
@@ -79,6 +92,7 @@ export default function TopProducts() {
               </span>
             </div>
 
+            {/* CART BUTTON */}
             <button
               onClick={() => handleAddToCart(item)}
               className={`w-full mt-3 py-2 text-sm rounded transition ${
