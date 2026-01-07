@@ -14,74 +14,55 @@ export default function FeaturedProducts() {
   const settings = {
     centerMode: true,
     infinite: true,
-    centerPadding: "0px",
-    slidesToShow: 5,
-    speed: 800,
+    variableWidth: true,   // 🔥 IMPORTANT (video-like movement)
+    slidesToScroll: 1,
+    speed: 700,
     autoplay: true,
-    autoplaySpeed: 3500,
+    autoplaySpeed: 3000,
     arrows: false,
     dots: true,
     pauseOnHover: false,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: { slidesToShow: 3 },
-      },
-      {
-        breakpoint: 640,
-        settings: { slidesToShow: 1, centerMode: false },
-      },
-    ],
+    cssEase: "ease-in-out",
+
+    // 🔥 Start from middle
+    initialSlide: Math.floor(featured.length / 2),
+
     appendDots: (dots) => (
-      <div className="mt-8">
-        <ul className="flex justify-center gap-3">{dots}</ul>
+      <div className="mt-10">
+        <ul className="flex justify-center gap-3">
+          {dots}
+        </ul>
       </div>
     ),
-    customPaging: () => (
-      <div className="w-2 h-2 rounded-full bg-gray-600"></div>
-    ),
+
+    customPaging: () => <div className="featured-dot"></div>,
   };
 
   return (
-    <section className="bg-black py-24">
+    <section className="bg-black py-24 overflow-hidden">
       <h2 className="text-center text-xl text-gray-300 mb-16">
         Featured Products
       </h2>
 
       <Slider {...settings}>
         {featured.map((product) => (
-          <div key={product.id} className="px-4">
+          <div key={product.id} className="featured-slide">
             <div
               onClick={() => navigate(`/product/${product.id}`)}
-              className="flex flex-col items-center text-center text-gray-300
-                         transition-all duration-500 cursor-pointer
-                         slick-center:scale-110 scale-90"
+              className="featured-card cursor-pointer text-center"
             >
-              {/* IMAGE */}
-              <img
-                src={product.images[0]}
-                alt={product.title}
-                className="h-48 object-contain mb-4"
-              />
-
-              {/* TITLE */}
-              <p className="text-sm mb-1 hover:text-red-500">
+              <p className="text-xs text-gray-400 mb-2">
                 {product.title}
               </p>
 
-              {/* ⭐ RATINGS */}
-              <div className="flex items-center gap-1 mb-2">
-                <span className="text-red-500">
-                  {"★".repeat(product.rateCount)}
-                </span>
-                <span className="text-gray-500 text-xs">
-                  ({product.ratings})
-                </span>
-              </div>
+              <img
+                src={product.images[0]}
+                alt={product.title}
+                className="mx-auto h-56 object-contain mb-4"
+              />
 
-              {/* PRICE */}
-              <div className="flex gap-3 items-center justify-center">
-                <span className="text-lg text-white font-semibold">
+              <div className="flex justify-center gap-2 items-center">
+                <span className="text-white font-semibold">
                   ₹{product.finalPrice}
                 </span>
                 <span className="line-through text-gray-500 text-sm">
