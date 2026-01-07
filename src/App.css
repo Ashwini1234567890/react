@@ -14,17 +14,6 @@
 .animate-dropdown {
   animation: dropdown 0.2s ease-out forwards;
 }
-/* ===== RED DOTS FOR REACT-SLICK ===== */
-.slick-dots li button:before {
-  font-size: 10px;
-  color: #555;
-  opacity: 1;
-}
-
-.slick-dots li.slick-active button:before {
-  color: #e60023;
-}
-
 
 /* ===== PRICE SLIDER STYLING ===== */
 
@@ -45,4 +34,67 @@
   background: #ffffff;
   border-radius: 50%;
   cursor: pointer;
+}
+
+
+
+
+
+/* HERO SLIDER DOTS */
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #848181; /* light red (inactive) */
+  transition: all 0.3s ease;
+}
+
+/* ACTIVE DOT */
+.slick-dots li.slick-active .hero-dot {
+  background: #e60023; /* bright red */
+  transform: scale(1.4);
+}
+
+
+
+/* ================= FEATURED COVERFLOW ================= */
+
+/* FAR slides (smallest) */
+.featured-card {
+  transform: scale(0.65);
+  transition: transform 0.6s ease;
+}
+
+/* IMMEDIATE left & right (medium) */
+.slick-active .featured-card {
+  transform: scale(0.9);
+}
+
+/* CENTER slide (biggest) */
+.slick-center .featured-card {
+  transform: scale(1.35);
+}
+
+/* Center override safety */
+.slick-center.slick-active .featured-card {
+  transform: scale(1.35);
+}
+
+/* ================= DOTS ================= */
+
+.featured-dot {
+  width: 6px;
+  height: 6px;
+  background: #555;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.slick-dots li.slick-active .featured-dot {
+  background: #e60023;
+  transform: scale(1.6);
+}
+
+.slick-dots {
+  bottom: -45px;
 }

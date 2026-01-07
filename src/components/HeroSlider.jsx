@@ -12,17 +12,19 @@ export default function HeroSlider() {
     autoplaySpeed: 3500,
     arrows: false,
     pauseOnHover: false,
-  appendDots: dots => (
-    <div>
-      <ul className="flex justify-center gap-3 mt-4"> {dots} </ul>
-    </div>
-  ),
-  customPaging: () => (
-    <div className="w-2 h-2 rounded-full bg-gray-600"></div>
-  ),
-};
 
+    appendDots: dots => (
+      <div>
+        <ul className="flex justify-center gap-3 mt-4">
+          {dots}
+        </ul>
+      </div>
+    ),
 
+    customPaging: () => (
+      <div className="hero-dot"></div>
+    ),
+  };
 
   return (
     <section className="w-full bg-black">
